@@ -1,0 +1,32 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on pushes to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # The virtual machine on which the actions will run
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'  # Define the Python version you want to use
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip  # Upgrade pip to the latest version
+          pip install -r requirements.txt     # Install dependencies from requirements.txt
+
+      # Step 4: Run the application
+      - name: Run application
+        run: |
+          python app.py &  # Start your application (make sure app.py exists in your repo)
